@@ -14,87 +14,108 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cells:
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
+  - walkable: 0
+    defaultCost: 0
+    cost: 0
+    visited: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   - walkable: 1
+    defaultCost: 0
     cost: 0
     visited: 0
-    totalCosts: 0
-  - walkable: 1
-    cost: 0
-    visited: 0
-    totalCosts: 0
+    totalCosts: 2147483647
   width: 3

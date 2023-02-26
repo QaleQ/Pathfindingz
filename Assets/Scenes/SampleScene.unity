@@ -154,12 +154,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state:
     playerPosition: {x: 0, y: 0}
-    m_grid: {fileID: 11400000, guid: 7c240924a0d6a2844ae524eba1ca3664, type: 2}
+    m_grid: {fileID: 11400000, guid: f3e2109c59c723c46895ee4649e968a5, type: 2}
   startPosition: {x: 0, y: 0}
   goalPosition: {x: 4, y: 4}
   goal:
     playerPosition: {x: 4, y: 4}
     m_grid: {fileID: 11400000, guid: f3e2109c59c723c46895ee4649e968a5, type: 2}
+  threshold: 19
 --- !u!4 &17319665
 Transform:
   m_ObjectHideFlags: 0

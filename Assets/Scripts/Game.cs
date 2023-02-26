@@ -11,22 +11,23 @@ public class Game : MonoBehaviour
     public Vector2Int goalPosition;
     [HideInInspector] public State goal;
     public static int Threshold;
+    [SerializeField] int threshold;
     public static int CurrentCost;
     public event Action<State> StateChanged;
     
     void Start()
     {
         goal.SetGrid(state.Grid);
-        
-        // foreach (var gridCell in state.Grid.cells)
-        // {
-        //     gridCell.cost = Random.Range(5, 30);
-        // }
+        Threshold = threshold;
+        foreach (var gridCell in state.Grid.cells)
+        {
+            gridCell.cost = Random.Range(5, 30);
+        }
 
         state.Grid.GetCell(startPosition.x, startPosition.y).cost = 0;
         state.Grid.GetCell(goalPosition.x, goalPosition.y).cost = 0;
         
-        Threshold = 34;
+        // Threshold = 34;
     }
 
     public State State
