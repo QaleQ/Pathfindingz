@@ -9,7 +9,7 @@ public static class Pathfinder
     {
         Queue<Path> todoPaths = new();
         Dictionary<int, Path> bestPath = new();
-        var startPath = new Path(new[] { start }, new HashSet<State> { start }, Game.CurrentCost);
+        var startPath = new Path(new[] { start }, new HashSet<State> { start }, Game.CurrentScore);
         todoPaths.Enqueue(startPath);
         while (todoPaths.Count > 0)
         {

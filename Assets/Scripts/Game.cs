@@ -16,13 +16,15 @@ public class Game : MonoBehaviour
     
     public static bool GameIsActive = true;
     public static int Threshold;
-    public static int CurrentCost;
+    public static int CurrentScore;
+    public static int BestScore;
     public static int OptimalScore;
     
     void Start() => StartGame();
 
     void StartGame()
     {
+        GameIsActive = true;
         state.playerPosition = startPosition;
         goal.playerPosition = goalPosition;
         goal.SetGrid(state.Grid);
@@ -50,6 +52,7 @@ public class Game : MonoBehaviour
 
     void Update()
     {
+        if (!GameIsActive) return;
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) Move(Vector2Int.left);
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) Move(Vector2Int.right);
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) Move(Vector2Int.down);

@@ -23,7 +23,6 @@ public class Grid : ScriptableObject
     
     public Cell GetCell(int x, int y) => cells[x + y * width];
     public Cell GetCell(Vector2Int pos) => GetCell(pos.x, pos.y);
-    
     bool IsCellWalkable(int x, int y) => GetCell(x, y).walkable;
     public bool IsCellWalkable(Vector2Int pos) => IsCellWalkable(pos.x, pos.y);
 

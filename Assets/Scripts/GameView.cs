@@ -9,7 +9,7 @@ public class GameView : MonoBehaviour
     [SerializeField] CellView TilePrefab;
     public TextMeshProUGUI OptimalScoreView;
     public TextMeshProUGUI CurrentScoreView;
-    
+
     List<CellView> _tiles = new();
 
     void Start()
@@ -21,15 +21,15 @@ public class GameView : MonoBehaviour
     void OnGameStateChanged(State state)
     {
         PlayerView.transform.position = new Vector3(state.playerPosition.x, state.playerPosition.y, 0);
-        var newCell = state.Grid.GetCell(state.playerPosition.x, state.playerPosition.y); 
+        var newCell = state.Grid.GetCell(state.playerPosition.x, state.playerPosition.y);
         newCell.visited = true;
-        
-        Game.CurrentCost += newCell.cost;
-        
+
+        Game.BestScore = Game.CurrentScore;
+        Game.CurrentScore += newCell.cost;
         // destroy all tiles
         foreach (var tile in _tiles) Destroy(tile.gameObject);
         _tiles.Clear();
-        
+
         // create all tiles
         for (int y = 0; y < state.Grid.Height; y++)
         {
@@ -40,7 +40,23 @@ public class GameView : MonoBehaviour
                 _tiles.Add(tile);
             }
         }
+
+        if (Game.CurrentScore >= Game.OptimalScore)
+        {
+            GameOver();
+            return;
+        }
+
+        Game.BestScore = Game.CurrentScore;
         OptimalScoreView.text = $"Optimal score: {Game.OptimalScore}";
-        CurrentScoreView.text = $"Current score: {Game.CurrentCost}";
+        CurrentScoreView.text = $"Current weight: {Game.CurrentScore}";
+    }
+
+    void GameOver()
+    {
+        Game.GameIsActive = false;
+        CurrentScoreView.text = Game.CurrentScore == Game.OptimalScore
+            ? "Optimal solution found!"
+            : $"Final score: {Game.BestScore - Game.OptimalScore}";
     }
 }
