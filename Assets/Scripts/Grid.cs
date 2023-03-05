@@ -11,8 +11,6 @@ public class Cell
     
     // These fields are used for the pathfinding process only 
     [HideInInspector] public bool visited;
-    [HideInInspector] public Cell predecessor;
-    [HideInInspector] public int totalCosts;
 }
 
 [CreateAssetMenu]
@@ -33,8 +31,6 @@ public class Grid : ScriptableObject
         {
             cell.cost = cell.defaultCost;
             cell.visited = false;
-            cell.predecessor = null;
-            cell.totalCosts = Int32.MaxValue;
         }
     }
 }

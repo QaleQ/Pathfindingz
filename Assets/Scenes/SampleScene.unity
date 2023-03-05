@@ -153,14 +153,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state:
-    playerPosition: {x: 0, y: 0}
-    m_grid: {fileID: 11400000, guid: f3e2109c59c723c46895ee4649e968a5, type: 2}
-  startPosition: {x: 0, y: 0}
-  goalPosition: {x: 4, y: 4}
+    playerPosition: {x: 4, y: 0}
+    m_grid: {fileID: 11400000, guid: 6cded7d74aabba54a82a38e2dfe014ee, type: 2}
+  startPosition: {x: 4, y: 0}
+  goalPosition: {x: 0, y: 6}
   goal:
     playerPosition: {x: 4, y: 4}
     m_grid: {fileID: 11400000, guid: f3e2109c59c723c46895ee4649e968a5, type: 2}
-  threshold: 19
+  threshold: 6
 --- !u!4 &17319665
 Transform:
   m_ObjectHideFlags: 0
@@ -300,7 +300,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173696607}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -384,7 +384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 2.59, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

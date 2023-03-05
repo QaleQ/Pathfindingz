@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc85fb40b40b73648a2133e75f4f7bef, type: 3}
+  m_Name: 7x5_Game
+  m_EditorClassIdentifier: 
+  cells:
+  - walkable: 0
+    defaultCost: 0
+    cost: 8
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 27
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 19
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 11
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 0
+    visited: 1
+  - walkable: 1
+    defaultCost: 0
+    cost: 8
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 12
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 0
+    visited: 1
+  - walkable: 1
+    defaultCost: 0
+    cost: 0
+    visited: 1
+  - walkable: 1
+    defaultCost: 0
+    cost: 0
+    visited: 1
+  - walkable: 1
+    defaultCost: 0
+    cost: 13
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 11
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 18
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 17
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 28
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 23
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 5
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 29
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 18
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 5
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 15
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 24
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 27
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 27
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 6
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 25
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 10
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 9
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 11
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 25
+    visited: 0
+  - walkable: 1
+    defaultCost: 0
+    cost: 0
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 22
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 22
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 14
+    visited: 0
+  - walkable: 0
+    defaultCost: 0
+    cost: 16
+    visited: 0
+  width: 5

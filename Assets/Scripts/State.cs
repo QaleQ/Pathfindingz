@@ -7,6 +7,7 @@ public struct State
 {
     [HideInInspector] public Vector2Int playerPosition;
     [SerializeField] Grid m_grid;
+    public int currentStateCost;
 
     public void SetGrid(Grid grid) => m_grid = grid;
 

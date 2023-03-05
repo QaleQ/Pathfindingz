@@ -17,17 +17,14 @@ public class Game : MonoBehaviour
     
     void Start()
     {
+        state.playerPosition = startPosition;
         goal.SetGrid(state.Grid);
-        Threshold = threshold;
-        foreach (var gridCell in state.Grid.cells)
-        {
-            gridCell.cost = Random.Range(5, 30);
-        }
 
+        foreach (var gridCell in state.Grid.cells) if (gridCell.walkable) gridCell.cost = Random.Range(5, 30);
         state.Grid.GetCell(startPosition.x, startPosition.y).cost = 0;
         state.Grid.GetCell(goalPosition.x, goalPosition.y).cost = 0;
         
-        // Threshold = 34;
+        Threshold = 34;
     }
 
     public State State
@@ -73,6 +70,12 @@ public class Game : MonoBehaviour
             State = state;
         }
     }
+
+    [ContextMenu("UpdateThreshold")]
+    public void UpdateThreshold()
+    {
+        Threshold = threshold;
+    }
     
     [ContextMenu("Depth First Search")]
     public void DepthFirstSearch()
@@ -92,7 +95,14 @@ public class Game : MonoBehaviour
     [ContextMenu("Breadth First Search Paths")]
     public void BreadthFirstSearchPaths()
     {
-        var path = Pathfinder.BreadthFirstSearchPaths(state, goal);
+        var path = Pathfinder.BreadthFirstModified(state, goal);
+        StartCoroutine(Co_PlayPath(path));
+    }
+    
+    [ContextMenu("SecondVersion Search")]
+    public void SecondVersion()
+    {
+        var path = Pathfinder.FindHighestPathWithoutExceedingThreshold(state);
         StartCoroutine(Co_PlayPath(path));
     }
     

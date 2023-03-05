@@ -6,35 +6,105 @@ using Utils;
 
 public static class Pathfinder
 {
-    public static IEnumerable<State> BreadthFirstSearchPaths(State start, State end)
+    public static IEnumerable<State> BreadthFirstModified(State start, State end)
     {
-        Queue<State[]> todoPaths = new();
-        Dictionary<State[], HashSet<State>> visitedDict = new();
-        Dictionary<int[], State> finalizedPaths = new();
-
-        todoPaths.Enqueue(new []{ start });
+        // make a queue of paths
+        Queue<Path> todoPaths = new();
+        
+        // make a dictionary for paths, using the TotalCost for that path as a key
+        Dictionary<int, Path> finalizedPaths = new();
+        
+        // start off by making a new path out of the start state, where it considers itself visited
+        var startPath = new Path(new[] { start }, new HashSet<State> { start }, 0);
+        
+        todoPaths.Enqueue(startPath);
+        
+        //!!!! update threshold when moving
         
         while (todoPaths.Count > 0)
         {
-            State[] currentPath = todoPaths.Dequeue();
-            State currNode = currentPath[^1];
+            Path currentPath = todoPaths.Dequeue();
+            State currNode = currentPath.States[^1];
             
+            // loop over all adjacent states
             foreach (var neighbor in currNode.GetSuccessors())
             {
-                if (neighbor.Equals(end)) return currentPath.Concat(new[] { neighbor }).ToArray();
-                if (visitedDict[currentPath].Contains(neighbor)) continue;
+                // neighbor already visited in this path, continue
+                if (currentPath.VisitedStates.Contains(neighbor) || neighbor.Grid.GetCell(neighbor.playerPosition).visited) continue;
+                
+                // found end, append the neighbor and return path
+                if (neighbor.Equals(end)) return currentPath.States.Concat(new[] { neighbor }).ToArray();
+
+                // get the cost of the neighbor cell
                 var cellCost = neighbor.Grid.GetCell(neighbor.playerPosition).cost;
-                var newPath = currentPath.Concat(new[] { neighbor }).ToArray();
-                visitedDict[newPath] = visitedDict[currentPath];
-                visitedDict[newPath].Add(neighbor);
-                todoPaths.Enqueue(newPath);
-                continue;
+                
+                // create a clone clone the path as a new path
+                Path newPath = new Path(currentPath.States, new HashSet<State>(currentPath.VisitedStates), currentPath.TotalCost);
+                
+                // append the neighbor state to the end of the new path
+                newPath.States = newPath.States.Concat(new[] { neighbor }).ToArray();
+
+                newPath.VisitedStates.Add(neighbor);
+                
+                // add neighbour cell's cost to path's total cost
+                newPath.TotalCost += cellCost;
+                
+                // go to next iteration
+                if (cellCost + currentPath.TotalCost > Game.Threshold) finalizedPaths.TryAdd(newPath.TotalCost, newPath);
+                else todoPaths.Enqueue(newPath);
             }
         }
-
-        Debug.Log("End could not be reached");
-        return null;
+        // no paths left to dequeue, and we didnt find the goal.
+        // loop over the finalizedPaths list, and return the path with the highest cost
+        int maxCost = 0;
+        foreach (var keyValuePair in finalizedPaths) maxCost = Math.Max(keyValuePair.Key, maxCost);
+        return finalizedPaths[maxCost].States;
     }
+    
+    public static IEnumerable<State> FindHighestPathWithoutExceedingThreshold(State start)
+    {
+        Queue<Path> todoPaths = new();
+        Dictionary<int, Path> bestPath = new();
+        var startPath = new Path(new[] { start }, new HashSet<State> { start }, 0);
+        todoPaths.Enqueue(startPath);
+        while (todoPaths.Count > 0)
+        {
+            Path currentPath = todoPaths.Dequeue();
+            State currNode = currentPath.States[^1];
+            bool foundNextNeighbor = false;
+            foreach (var neighbor in currNode.GetSuccessors())
+            {
+                Cell neighborCell = neighbor.Grid.GetCell(neighbor.playerPosition);
+                int neighborCellCost = neighborCell.cost;
+                
+                if (currentPath.VisitedStates.Contains(neighbor) || neighborCell.visited ||
+                    neighborCellCost + currentPath.TotalCost > Game.Threshold)
+                    continue;
+                
+                if (neighborCellCost + currentPath.TotalCost == Game.Threshold) 
+                    return currentPath.States.Concat(new[] { neighbor }).ToArray();
+                
+                foundNextNeighbor = true;
+                
+                Path newPath = new Path(
+                    currentPath.States,
+                    new HashSet<State>(currentPath.VisitedStates),
+                    currentPath.TotalCost);
+                
+                newPath.TotalCost += neighborCellCost;
+                newPath.VisitedStates.Add(neighbor);
+                newPath.States = newPath.States.Concat(new[] { neighbor }).ToArray();
+                
+                todoPaths.Enqueue(newPath);
+            }
+            if (!foundNextNeighbor) bestPath[currentPath.TotalCost] = currentPath;
+        }
+        int maxCost = 0;
+        foreach (var keyValuePair in bestPath) maxCost = Math.Max(keyValuePair.Key, maxCost);
+        return bestPath[maxCost].States;
+    }
+    
+    
     
     // public static IEnumerable<State> BreadthFirstSearchPaths(State start, State end)
     // {

@@ -27,16 +27,14 @@ public class GameView : MonoBehaviour
         // ** used to 'pick up' weight from a tile when entered
         newCell.cost = 0;
         
-        
-        
         // destroy all tiles
         foreach (var tile in _tiles) Destroy(tile.gameObject);
         _tiles.Clear();
         
         // create all tiles
-        for (int y = 0; y < state.Grid.width; y++)
+        for (int y = 0; y < state.Grid.Height; y++)
         {
-            for (int x = 0; x < state.Grid.Height; x++)
+            for (int x = 0; x < state.Grid.width; x++)
             {
                 var tile = Instantiate(TilePrefab, new Vector3(x, y), Quaternion.identity);
                 tile.SetCell(state.Grid.GetCell(x, y));
