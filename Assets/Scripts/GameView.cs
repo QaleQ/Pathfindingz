@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameView : MonoBehaviour
@@ -6,6 +7,8 @@ public class GameView : MonoBehaviour
     public Game Game;
     public GameObject PlayerView;
     [SerializeField] CellView TilePrefab;
+    public TextMeshProUGUI OptimalScoreView;
+    public TextMeshProUGUI CurrentScoreView;
     
     List<CellView> _tiles = new();
 
@@ -21,11 +24,7 @@ public class GameView : MonoBehaviour
         var newCell = state.Grid.GetCell(state.playerPosition.x, state.playerPosition.y); 
         newCell.visited = true;
         
-        // attempt to increase currentCost
         Game.CurrentCost += newCell.cost;
-        
-        // ** used to 'pick up' weight from a tile when entered
-        newCell.cost = 0;
         
         // destroy all tiles
         foreach (var tile in _tiles) Destroy(tile.gameObject);
@@ -41,5 +40,7 @@ public class GameView : MonoBehaviour
                 _tiles.Add(tile);
             }
         }
+        OptimalScoreView.text = $"Optimal score: {Game.OptimalScore}";
+        CurrentScoreView.text = $"Current score: {Game.CurrentCost}";
     }
 }

@@ -7,7 +7,7 @@ public struct State
 {
     [HideInInspector] public Vector2Int playerPosition;
     [SerializeField] Grid m_grid;
-    public int currentStateCost;
+    [HideInInspector] public int cost;
 
     public void SetGrid(Grid grid) => m_grid = grid;
 
@@ -22,7 +22,13 @@ public struct State
     public bool PositionExistsAndIsWalkable(Vector2Int newPosition)
     {
         return PositionExists(newPosition) &&
-               m_grid.IsCellWalkable(newPosition) == true;
+               m_grid.IsCellWalkable(newPosition);
+    }
+
+    public bool PositionExistsAndIsWalkableAndIsNotVisited(Vector2Int newPosition)
+    {
+        return PositionExistsAndIsWalkable(newPosition) &&
+               !m_grid.GetCell(newPosition).visited;
     }
     
     public IEnumerable<State> GetSuccessors()
@@ -37,7 +43,7 @@ public struct State
         foreach (var direction in directions)
         {
             Vector2Int newPosition = playerPosition + direction;
-            if (PositionExistsAndIsWalkable(newPosition))
+            if (PositionExistsAndIsWalkableAndIsNotVisited(newPosition))
             {
                 yield return new State
                 {

@@ -8,6 +8,7 @@ public class Cell
     public bool walkable;
     public int defaultCost;
     [HideInInspector] public int cost;
+    [HideInInspector] public bool highlighted;
     
     // These fields are used for the pathfinding process only 
     [HideInInspector] public bool visited;
@@ -22,15 +23,17 @@ public class Grid : ScriptableObject
     
     public Cell GetCell(int x, int y) => cells[x + y * width];
     public Cell GetCell(Vector2Int pos) => GetCell(pos.x, pos.y);
+    
     bool IsCellWalkable(int x, int y) => GetCell(x, y).walkable;
     public bool IsCellWalkable(Vector2Int pos) => IsCellWalkable(pos.x, pos.y);
-    
+
     void OnEnable()
     {
         foreach (var cell in cells)
         {
             cell.cost = cell.defaultCost;
             cell.visited = false;
+            cell.highlighted = false;
         }
     }
 }

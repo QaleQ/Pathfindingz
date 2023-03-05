@@ -1,36 +1,47 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] State state;
+    [HideInInspector] public State goal;
     public Vector2Int startPosition;
     public Vector2Int goalPosition;
-    [HideInInspector] public State goal;
-    public static int Threshold;
-    [SerializeField] int threshold;
-    public static int CurrentCost;
     public event Action<State> StateChanged;
+    [SerializeField] int threshold;
     
-    void Start()
+    public static bool GameIsActive = true;
+    public static int Threshold;
+    public static int CurrentCost;
+    public static int OptimalScore;
+    
+    void Start() => StartGame();
+
+    void StartGame()
     {
         state.playerPosition = startPosition;
+        goal.playerPosition = goalPosition;
         goal.SetGrid(state.Grid);
 
         foreach (var gridCell in state.Grid.cells) if (gridCell.walkable) gridCell.cost = Random.Range(5, 30);
+        
         state.Grid.GetCell(startPosition.x, startPosition.y).cost = 0;
         state.Grid.GetCell(goalPosition.x, goalPosition.y).cost = 0;
-        
-        Threshold = 34;
+
+        Threshold = threshold;
+        State = state;
+
+        OptimalScore = Pathfinder.FindHighestPathWithoutExceedingThreshold(state).bestScore;
     }
 
     public State State
     {
         get => state;
-        set
+        private set
         {
             state = value;
             StateChanged?.Invoke(value);
@@ -39,29 +50,21 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) Move(Vector2Int.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) Move(Vector2Int.right);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) Move(Vector2Int.down);
-        if (Input.GetKeyDown(KeyCode.UpArrow)) Move(Vector2Int.up);
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) Move(Vector2Int.left);
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) Move(Vector2Int.right);
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) Move(Vector2Int.down);
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) Move(Vector2Int.up);
     }
 
     void Move(Vector2Int vec2direction)
     {
         State current = State;
         Vector2Int newPosition = current.playerPosition + vec2direction;
-        if (State.PositionExistsAndIsWalkable(newPosition))
-        {
-            // prevent walking on previously visited
-            if (!State.Grid.GetCell(newPosition).visited) current.playerPosition += vec2direction;
-            // normal behavior
-            // current.playerPosition += vec2direction;
-
-            // current.currentCost += current.Grid.GetCell(current.playerPosition).cost;
-        }
+        if (!State.PositionExistsAndIsWalkableAndIsNotVisited(newPosition)) return;
+        current.playerPosition += vec2direction;
         State = current;
     }
-
-    // play path
+    
     IEnumerator Co_PlayPath(IEnumerable<State> path)
     {
         foreach (var state in path)
@@ -70,69 +73,35 @@ public class Game : MonoBehaviour
             State = state;
         }
     }
-
-    [ContextMenu("UpdateThreshold")]
-    public void UpdateThreshold()
-    {
-        Threshold = threshold;
-    }
     
-    [ContextMenu("Depth First Search")]
-    public void DepthFirstSearch()
+    IEnumerator Co_ShowPath(IEnumerable<State> path)
     {
-        var path = Pathfinder.DepthFirstSearch(state, goal);
-        StartCoroutine(Co_PlayPath(path));
-    }
-    
-    [ContextMenu("Depth First Search Modified")]
-    public void DepthFirstSearchModified()
-    {
-        var path = Pathfinder.DepthFirstSearchModified(state, goal);
-        if (path != null) StartCoroutine(Co_PlayPath(path));
+        foreach (var state in path)
+        {
+            yield return new WaitForSeconds(0.25f);
+            State.Grid.GetCell(state.playerPosition.x, state.playerPosition.y).highlighted = true;
+            State = State;
+        }
     }
 
-    
-    [ContextMenu("Breadth First Search Paths")]
-    public void BreadthFirstSearchPaths()
+    [ContextMenu("Find Full Path")]
+    public void FindPath()
     {
-        var path = Pathfinder.BreadthFirstModified(state, goal);
+        var path = Pathfinder.FindHighestPathWithoutExceedingThreshold(state).states;
         StartCoroutine(Co_PlayPath(path));
     }
     
-    [ContextMenu("SecondVersion Search")]
-    public void SecondVersion()
+    [ContextMenu("Find Next Step")]
+    public void FindNextStep()
     {
-        var path = Pathfinder.FindHighestPathWithoutExceedingThreshold(state);
-        StartCoroutine(Co_PlayPath(path));
+        var path = Pathfinder.FindHighestPathWithoutExceedingThreshold(state).states;
+        if (path != null) State = path.ElementAt(0);
     }
     
-    [ContextMenu("Breadth First Search Predecessors")]
-    public void BreadthFirstSearchPredecessors()
+    [ContextMenu("Show Best Path")]
+    public void ShowBestPath()
     {
-        var path = Pathfinder.BreadthFirstSearchPredecessors(state, goal);
-        StartCoroutine(Co_PlayPath(path));
-    }
-    
-    
-    [ContextMenu("Dijkstra Search")]
-    public void DijkstraSearch()
-    {
-        var path = Pathfinder.DijkstraSearch(state, goal);
-        StartCoroutine(Co_PlayPath(path));
-    }
-    
-    
-    [ContextMenu("Dijkstra Search Modified")]
-    public void DijkstraSearchModified()
-    {
-        var path = Pathfinder.DijkstraSearchModified(state);
-        if (path != null) StartCoroutine(Co_PlayPath(path));
-    }
-    
-    [ContextMenu("FindLargestPath")]
-    public void FindLargestPath()
-    {
-        var path = Pathfinder.FindLargestPath(state);
-        if (path != null) StartCoroutine(Co_PlayPath(path));
+        var path = Pathfinder.FindHighestPathWithoutExceedingThreshold(state).states;
+        StartCoroutine(Co_ShowPath(path));
     }
 }

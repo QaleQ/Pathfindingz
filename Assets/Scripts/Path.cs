@@ -4,12 +4,12 @@ public struct Path
 {
     public State[] States;
     public readonly HashSet<State> VisitedStates;
-    public int TotalCost;
-
-    public Path(State[] states, HashSet<State> visitedStates, int totalCost)
+    public int PathCost;
+    
+    public Path(State[] states, HashSet<State> visitedStates, int pathCost)
     {
         States = states;
         VisitedStates = visitedStates;
-        TotalCost = totalCost;
+        PathCost = pathCost;
     }
 }
